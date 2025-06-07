@@ -1,0 +1,28 @@
+<!-- app/views/messages/_message.html.erb -->
+<%# locals: message (Messageオブジェクト), depth (ネストレベル) %>
+
+<div style="margin-left: <%= depth * 20 %>px; margin-top: 12px;">
+  <!-- メッセージ本文の表示 -->
+  <div class="p-3 border rounded bg-gray-100">
+    <p><%= message.content %></p>
+    <small class="text-gray-600">投稿日時: <%= message.created_at.strftime("%Y/%m/%d %H:%M") %></small>
+  </div>
+
+  <!-- このメッセージへの返信フォーム -->
+  <div class="mt-2">
+    <%= form_with(model: Message.new, url: messages_path, local: true) do |f| %>
+      <div>
+        <%= f.text_area :content, rows: 2, class: "w-full px-2 py-1 border rounded", placeholder: "このメッセージに返信..." %>
+      </div>
+      <div class="mt-1">
+        <%= f.hidden_field :parent_id, value: message.id %>
+        <%= f.submit "返信", class: "px-3 py-1 bg-green-600 text-white rounded text-sm" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- このメッセージの子（replies）があれば再帰的に表示 -->
+<% message.replies.each do |child| %>
+  <%= render partial: "message", locals: { message: child, depth: depth + 1 } %>
+<% end %>

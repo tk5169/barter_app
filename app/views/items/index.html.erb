@@ -1,0 +1,48 @@
+<!-- app/views/items/index.html.erb -->
+
+<% content_for :title, "Items 一覧" %>
+
+<div class="prose mx-auto md:w-2/3 w-full">
+  <h1 class="text-3xl font-bold mb-4">Items</h1>
+
+  <!-- 新規アイテム作成へのリンク -->
+  <%= link_to "New item", new_item_path, class: "inline-block mb-6 px-4 py-2 bg-blue-600 text-white rounded" %>
+
+  <% @items.each do |item| %>
+    <div class="mb-8 border-b pb-6 flex items-start space-x-4">
+      <!-- ── 画像サムネイル表示 ── -->
+      <% if item.image.attached? %>
+        
+        <%= link_to item_path(item) do %>
+          <%= image_tag(
+      url_for(item.image),
+      alt: item.title,
+      style: "max-width:130px; width:150%; height:auto; display:block; margin-bottom:1rem; border-radius:4px; border:1px solid #DDD;"
+    ) %>
+        <% end %>
+      <% else %>
+        <!-- 画像が未添付の場合のプレースホルダー表示 -->
+        <div class="w-36 h-36 flex items-center justify-center bg-gray-100 rounded border text-gray-500">
+          No Image
+        </div>
+      <% end %>
+
+      <!-- ── テキスト情報部分 ── -->
+      <div class="flex-1">
+        <p><strong>Title:</strong> <%= item.title.presence || "—" %></p>
+        <p><strong>Description:</strong> <%= item.description.presence || "—" %></p>
+        <p><strong>Status:</strong> <%= item.status.presence || "—" %></p>
+        <p><strong>User ID:</strong> <%= item.user_id %></p>
+
+        <div class="mt-2 space-x-3">
+          <%= link_to "Show", item_path(item), class: "text-blue-600 underline" %>
+          <%= link_to "Edit", edit_item_path(item), class: "text-purple-600 underline" %>
+          <%= button_to "Destroy", item_path(item),
+                method: :delete,
+                data: { confirm: "本当に削除しますか？" },
+                class: "text-red-600" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

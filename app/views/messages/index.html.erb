@@ -1,0 +1,25 @@
+<!-- app/views/messages/index.html.erb -->
+<h1 class="text-2xl font-bold mb-6">提案 / メッセージ スレッド</h1>
+
+<!-- ルートメッセージ投稿フォーム -->
+<div class="mb-8">
+  <%= form_with(model: @new_message, url: messages_path, local: true) do |f| %>
+    <div>
+      <%= f.label :content, "新しい提案・メッセージ" %><br>
+      <%= f.text_area :content, rows: 3, class: "w-full px-2 py-1 border rounded", placeholder: "あなたの提案・メッセージを入力してください" %>
+    </div>
+    <div class="mt-2">
+      <%= f.hidden_field :parent_id, value: nil %>  <%# ルート投稿なので parent_id は nil %>
+      <%= f.submit "投稿する", class: "px-4 py-2 bg-blue-600 text-white rounded" %>
+    </div>
+  <% end %>
+</div>
+
+<hr>
+
+<!-- すべてのルートメッセージをスレッドとして表示（再帰的に _message.html.erb を呼ぶ） -->
+<div>
+  <% @root_messages.each do |message| %>
+    <%= render partial: "message", locals: { message: message, depth: 0 } %>
+  <% end %>
+</div>

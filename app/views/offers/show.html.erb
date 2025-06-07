@@ -1,0 +1,71 @@
+<% content_for :title, "提案の詳細" %>
+
+<div class="prose mx-auto md:w-2/3 w-full">
+  <!-- ─── フラッシュメッセージ（成功 or エラー） ─── -->
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 text-green-600 mb-4 rounded">
+      <%= notice %>
+    </p>
+  <% elsif alert.present? %>
+    <p class="py-2 px-3 bg-red-50 text-red-600 mb-4 rounded">
+      <%= alert %>
+    </p>
+  <% end %>
+
+  <!-- ─── ここから常に表示される「提案の詳細」セクション ─── -->
+  <h1 class="font-bold text-3xl mb-4">提案の詳細</h1>
+
+  <p><strong>交換したいアイテム:</strong> <%= @offer.item.title %></p>
+  <p><strong>提案内容:</strong> <%= @offer.offered_item_text %></p>
+  <p><strong>提案者:</strong> <%= @offer.offered_by.email %></p>
+  <hr class="my-4">
+
+  <!-- ─── 返信一覧 ─── -->
+  <h2 class="text-2xl font-semibold mb-2">返信一覧（<%= @replies.size %> 件）</h2>
+  <% if @replies.any? %>
+    <% @replies.each do |reply| %>
+      <div class="p-3 mb-2 border rounded bg-gray-100">
+        <p>
+          <!-- 返信者が「出品者」か「提案者」かで色分けしたい場合は以下のように条件分岐可能 -->
+          <% if reply.user == @offer.item.user %>
+            <strong class="text-blue-700">出品者 (<%= reply.user.email %>):</strong>
+          <% else %>
+            <strong><%= reply.user.email %>:</strong>
+          <% end %>
+          <%= reply.body %>
+        </p>
+        <p class="text-gray-500 text-sm">
+          (<%= reply.created_at.strftime("%Y/%m/%d %H:%M") %>)
+        </p>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-gray-500 mb-4">まだ返信はありません。</p>
+  <% end %>
+
+  <!-- ─── 返信フォーム ─── -->
+  <h2 class="text-2xl font-semibold mt-6 mb-2">返信を投稿</h2>
+  <%= form_with model: [@offer, @reply], 
+                url: offer_replies_path(@offer), 
+                local: true do |f| %>
+    <div class="mb-3">
+      <%= f.label :body, "返信内容" %><br>
+      <%= f.text_area :body, rows: 4, class: "w-full border rounded p-2", placeholder: "ここに返信内容を入力…" %>
+      <% if @reply.errors[:body].any? %>
+        <p class="text-red-500 text-sm">
+          <%= @reply.errors.full_messages.first %>
+        </p>
+      <% end %>
+    </div>
+    <div>
+      <%= f.submit "返信する", class: "px-4 py-2 bg-blue-600 text-white rounded" %>
+    </div>
+  <% end %>
+
+  <!-- ─── フッターのリンク ─── -->
+  <div class="mt-6">
+    <%= link_to "アイテム詳細に戻る", item_path(@offer.item), class: "text-blue-500 underline" %>
+    |
+    <%= link_to "提案一覧に戻る", offers_path, class: "text-blue-500 underline" %>
+  </div>
+</div>

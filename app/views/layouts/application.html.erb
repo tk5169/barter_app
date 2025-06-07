@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "BarterApp" %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <% if user_signed_in? %>
+      <p><%= current_user.email %> でログイン中です。</p>
+
+      <%# ──────── ログアウトは必ず button_to で送信 ──────── %>
+      <%= button_to "ログアウト", destroy_user_session_path, method: :delete,
+                    form: { class: "inline" },
+                    class: "text-red-500 underline bg-transparent cursor-pointer p-0 align-baseline" %>
+      <%# ※ class などはお好みで調整してください %>
+
+    <% else %>
+      <%= link_to "ログイン", new_user_session_path %> |
+      <%= link_to "登録", new_user_registration_path %>
+    <% end %>
+
+    <body class="p-6">
+    <!-- ─────────── 共通ナビゲーションバー ─────────── -->
+    <nav class="mb-8 p-4 bg-gray-200 rounded">
+      <%= link_to "ホーム", root_path, class: "mr-4 text-blue-600 underline" %>
+      <%= link_to "商品一覧", items_path, class: "mr-4 text-blue-600 underline" %>
+      <%= link_to "メッセージ", offers_path, class: "mr-4 text-blue-600 underline" %>
+      
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <%= yield %>
+  </body>
+</html>
