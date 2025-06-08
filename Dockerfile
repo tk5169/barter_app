@@ -1,5 +1,27 @@
+# 省略: ベースイメージ、apt-get install など
+
+WORKDIR /app
+
+# Gemfile のみ先にコピーして bundle install
+COPY Gemfile* ./
+RUN bundle install --jobs 4 --retry 3
+
+# ソースをコピー
+COPY . .
+
+# production 環境設定
+ENV RAILS_ENV=production
+
+# SECRET_KEY_BASE は Render の Environment 変数から読み込まれる想定
+RUN SECRET_KEY_BASE=$SECRET_KEY_BASE bundle exec rails assets:precompile
+
+# ポートは Render が渡す $PORT で受ける
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+
+
 # syntax=docker/dockerfile:1
 # check=error=true
+
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
 # docker build -t barter_app .
@@ -70,3 +92,8 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
 CMD ["./bin/thrust", "./bin/rails", "server"]
+
+# （これまでのビルド手順…）
+
+# 最後のCMDを以下に置き換え
+CMD ["sh", "-c", "bundle exec rails db:migrate && bundle exec rails server -b 0.0.0.0 -p  $PORT"]
