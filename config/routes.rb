@@ -12,6 +12,10 @@ Rails.application.routes.draw do
 
   # Item（アイテム出品用）
   resources :items
+  
+     member do
+     get  :confirm_destroy    # 削除確認ページ
+     end
 
   resources :offers, only: %i[index show new create edit update destroy] do
     # replies#create が OffersController#create_reply にマップされるように指定
@@ -21,3 +25,5 @@ Rails.application.routes.draw do
   # Offer を受け入れるアクション（カスタムルート）
   post "offers/:id/accept", to: "offers#accept", as: "accept_offer"
 end
+
+

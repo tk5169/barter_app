@@ -44,6 +44,9 @@ end
       end
     end
   end
+  
+  def confirm_destroy
+      end
 
   def destroy
     @item.destroy!
