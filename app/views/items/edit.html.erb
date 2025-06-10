@@ -9,15 +9,15 @@
 
   <!-- 編集画面に「削除」リンクを移動 -->
   <div class="mt-6">
-    <%= link_to "Delete this item", confirm_destroy_item_path(@item),
+    <%= link_to "このアイテムを削除する", confirm_destroy_item_path(@item),
                 class: "px-4 py-2 bg-red-600 text-white rounded" %>
   </div>
 
   <!-- 詳細・一覧へのリンク -->
   <div class="mt-4 space-x-4">
-    <%= link_to "Show this item", item_path(@item),
+    <%= link_to "このアイテムを見る", item_path(@item),
                 class: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded" %>
-    <%= link_to "Back to items", items_path,
+    <%= link_to "アイテム一覧に戻る", items_path,
                 class: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded" %>
   </div>
 </div>
