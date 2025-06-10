@@ -7,11 +7,12 @@
   <!-- フォーム本体 -->
   <%= render "form", item: @item %>
 
-  <!-- 編集画面に「削除」リンクを移動 -->
   <div class="mt-6">
-    <%= link_to "このアイテムを削除する", confirm_destroy_item_path(@item),
-                class: "px-4 py-2 bg-red-600 text-white rounded" %>
-  </div>
+  <%= link_to "Delete this item", item_path(@item),
+              method: :delete,
+              data: { confirm: "本当にこのアイテムを削除しますか？" },
+              class: "px-4 py-2 bg-red-600 text-white rounded" %>
+</div>
 
   <!-- 詳細・一覧へのリンク -->
   <div class="mt-4 space-x-4">
