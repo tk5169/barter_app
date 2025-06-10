@@ -1,13 +1,23 @@
+<%# app/views/items/edit.html.erb %>
 <% content_for :title, "Editing item" %>
 
 <div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing item</h1>
+  <h1 class="font-bold text-4xl mb-4">Editing item</h1>
 
+  <!-- フォーム本体 -->
   <%= render "form", item: @item %>
 
-  <%= button_to "Destroy", item_path(item), method: :delete, data: { confirm: "Are you sure?" } %> -->
-    </div>
+  <!-- 編集画面に「削除」リンクを移動 -->
+  <div class="mt-6">
+    <%= link_to "Delete this item", confirm_destroy_item_path(@item),
+                class: "px-4 py-2 bg-red-600 text-white rounded" %>
+  </div>
 
-  <%= link_to "Show this item", @item, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to items", items_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+  <!-- 詳細・一覧へのリンク -->
+  <div class="mt-4 space-x-4">
+    <%= link_to "Show this item", item_path(@item),
+                class: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded" %>
+    <%= link_to "Back to items", items_path,
+                class: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded" %>
+  </div>
 </div>
