@@ -3,10 +3,10 @@
 <% content_for :title, "Items 一覧" %>
 
 <div class="prose mx-auto md:w-2/3 w-full">
-  <h1 class="text-3xl font-bold mb-4">Items</h1>
+  <h1 class="text-3xl font-bold mb-4">一覧</h1>
 
   <!-- 新規アイテム作成へのリンク -->
-  <%= link_to "New item", new_item_path, class: "inline-block mb-6 px-4 py-2 bg-blue-600 text-white rounded" %>
+  <%= link_to "出品", new_item_path, class: "inline-block mb-6 px-4 py-2 bg-blue-600 text-white rounded" %>
 
   <% @items.each do |item| %>
     <div class="mb-8 border-b pb-6 flex items-start space-x-4">
@@ -29,9 +29,9 @@
 
       <!-- ── テキスト情報部分 ── -->
       <div class="flex-1">
-        <p><strong>Title:</strong> <%= item.title.presence || "—" %></p>
-        <p><strong>Description:</strong> <%= item.description.presence || "—" %></p>
-        <p><strong>Status:</strong> <%= item.status.presence || "—" %></p>
+        <p><strong></strong> <%= item.title.presence || "—" %></p>
+        <p><strong>説明：</strong> <%= item.description.presence || "—" %></p>
+        <p><strong>状態：</strong> <%= item.status.presence || "—" %></p>
         <p><strong>User ID:</strong> <%= item.user_id %></p>
 
         <div class="mt-2 space-x-3">
