@@ -37,7 +37,7 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :user_id, "ユーザーID" %>
+    <%= form.label :user_id, "出品者" %>
     <%= form.text_field :user_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
       {"border-gray-400 focus:outline-blue-600": item.errors[:user_id].none?,
        "border-red-400 focus:outline-red-600": item.errors[:user_id].any?}] %>
@@ -48,13 +48,13 @@
   </div>
 
     <div class="field mt-4">
-    <%= f.label :delete_after_days, '〜日後に出品を削除する' %><br>
-    <%= f.number_field :delete_after_days, min: 0, value: 0, class: 'border p-2 rounded' %>
-    <small class="text-gray-500">0の場合、削除しません</small>
+    <%= form.number_field :delete_after_days, min: 1, max: 30, value: 1, class: 'border p-2 rounded' %>
+    <%= form.label :delete_after_days, '日後に出品を削除する' %>
+    <small class="text-gray-500">
   </div>
 
   <div class="actions mt-6">
-    <%= f.submit '出品する', class: 'px-4 py-2 bg-blue-600 text-white rounded' %>
+    <%= form.submit '出品する', class: 'px-4 py-2 bg-blue-600 text-white rounded' %>
   </div>
 
   

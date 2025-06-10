@@ -3,8 +3,11 @@
 
 <% @requests.each do |r| %>
   <div class="border p-4 my-2">
+   <% if r.image.attached? %>
+      <%= image_tag url_for(r.image.variant(resize_to_limit: [150, 150])), class: "rounded mb-2" %>
+    <% end %>
     <h2><%= r.title %></h2>
     <p><%= r.description %></p>
-    <p class="text-sm text-gray-600">by <%= r.user.email %></p>
+    
   </div>
 <% end %>

@@ -1,5 +1,11 @@
 class RequestsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_request, only: [:destroy]
+  
+  
+  def my
+    @requests = current_user.requests.order(created_at: :desc)
+  end
 
   # GET /requests
   def index
@@ -14,16 +20,34 @@ class RequestsController < ApplicationController
   # POST /requests
   def create
     @request = current_user.requests.build(request_params)
+    days = params[:request].delete(:delete_after_days).to_i
+    @request.expires_at = Time.current + days.days if days.positive?
+
     if @request.save
-      redirect_to requests_path, notice: "募集を作成しました"
+      redirect_to my_requests_path, notice: "募集を作成しました（#{days}日後に自動削除されます）"
     else
       render :new, status: :unprocessable_entity
     end
   end
+  
+  
+  def destroy
+    # 自分のものだけ削除できるようにする場合
+    if @request.user == current_user
+      @request.destroy
+      redirect_to my_requests_path, notice: "募集を削除しました。"
+    else
+      redirect_to my_requests_path, alert: "権限がありません。"
+    end
+  end
 
   private
+  
+  def set_request
+    @request = Request.find(params[:id])
+  end
 
   def request_params
-    params.require(:request).permit(:title, :description)
+    params.require(:request).permit(:title, :description, :image)
   end
 end
