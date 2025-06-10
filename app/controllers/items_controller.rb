@@ -63,6 +63,18 @@ end
       format.json { head :no_content }
     end
   end
+  
+  def create
+    @item = current_user.items.build(item_params)
+    days = params[:item].delete(:delete_after_days).to_i
+    @item.expires_at = Time.current + days.days if days > 0
+
+    if @item.save
+      redirect_to @item, notice: "Item was successfully created. It will be deleted in \#{days} days."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
 
   private
 

@@ -2,7 +2,16 @@
 <% content_for :title, "Editing item<" %>
 
 <div class="md:w-2/3 w-full">
+
   <h1 class="font-bold text-4xl mb-4">アイテムを編集する</h1>
+
+    <% if @item.image.attached? %>
+    <%= image_tag(
+          url_for(@item.image.variant(resize_to_limit: [300, 300])),
+          alt: @item.title,
+          class: "rounded border mb-6 w-full object-contain"
+        ) %>
+  <% end %>
 
   <!-- フォーム本体 -->
   <%= render "form", item: @item %>

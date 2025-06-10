@@ -30,8 +30,7 @@
       <%= link_to "ホーム", root_path, class: "mr-4 text-blue-600 underline" %>
       <%= link_to "アイテム一覧", items_path, class: "mr-4 text-blue-600 underline" %>
       <%= link_to "募集一覧", requests_path, class: "mr-4" %>
-      <%= link_to "メッセージ", offers_path, class: "mr-4 text-blue-600 underline" %>
-  　　<% if user_signed_in? %>
+      <%= link_to "送った提案", offers_path, class: "mr-4 text-blue-600 underline" %><% if user_signed_in? %>
       <%= link_to "あなたの出品", my_items_path, class: "mr-4" %>
      <% end %>
     </nav>

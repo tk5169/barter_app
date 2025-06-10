@@ -6,5 +6,6 @@ class User < ApplicationRecord
 
   has_many :offers, foreign_key: :offered_by_id
   has_many :items
+  has_many :requests, dependent: :destroy
 
 end

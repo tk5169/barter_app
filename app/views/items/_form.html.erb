@@ -47,5 +47,15 @@
     <%= form.submit "保存", class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
   </div>
 
+    <div class="field mt-4">
+    <%= f.label :delete_after_days, '〜日後に出品を削除する' %><br>
+    <%= f.number_field :delete_after_days, min: 0, value: 0, class: 'border p-2 rounded' %>
+    <small class="text-gray-500">0の場合、削除しません</small>
+  </div>
+
+  <div class="actions mt-6">
+    <%= f.submit '出品する', class: 'px-4 py-2 bg-blue-600 text-white rounded' %>
+  </div>
+
   
 <% end %>
