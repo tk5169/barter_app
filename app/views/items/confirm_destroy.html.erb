@@ -1,9 +1,10 @@
+<%# app/views/items/confirm_destroy.html.erb %>
 <% content_for :title, "Delete Item?" %>
 
 <div class="max-w-md mx-auto p-6 bg-white rounded shadow">
   <h1 class="text-2xl font-bold mb-4">本当にこのアイテムを削除しますか？</h1>
   <p class="mb-6"><strong>Title:</strong> <%= @item.title %></p>
-  
+
   <div class="flex space-x-4">
     <%= button_to "はい、削除する", item_path(@item),
                   method: :delete,

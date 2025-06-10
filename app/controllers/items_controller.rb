@@ -52,7 +52,7 @@ end
     @item.destroy!
 
     respond_to do |format|
-      format.html { redirect_to items_path, status: :see_other, notice: "Item was successfully destroyed." }
+      format.html { redirect_to items_path, status: :see_other, notice: "アイテムの削除が完了しました." }
       format.json { head :no_content }
     end
   end
