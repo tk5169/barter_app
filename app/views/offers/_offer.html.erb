@@ -1,6 +1,6 @@
 <!-- app/views/offers/_offer.html.erb -->
 <div id="<%= dom_id offer %>" class="offer-card w-full sm:w-auto my-5 p-4 border rounded-lg">
-  <p><strong>Item:</strong> <%= offer.item.item_name %></p>
+  <p><strong>Item:</strong> <%= offer.item.name %></p>
   <p><strong>Offered item:</strong> <%= offer.offered_item_text %></p>
   <p><strong>Status:</strong> <%= offer.status %></p>
   <p><strong>Accepted at:</strong> <%= offer.accepted_at.presence || '—' %></p>
@@ -8,6 +8,7 @@
   <div class="actions mt-3 space-x-2">
     <%= link_to "Show", offer, class: "px-3 py-1 bg-gray-100 rounded" %>
 
+    <%# 出品者だけに見せる Edit ボタン %>
     <% if offer.item.user_id == current_user.id %>
       <%= link_to "Edit", edit_offer_path(offer), class: "px-3 py-1 bg-blue-100 rounded" %>
     <% end %>
