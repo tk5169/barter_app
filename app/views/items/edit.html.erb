@@ -7,12 +7,12 @@
   <!-- フォーム本体 -->
   <%= render "form", item: @item %>
 
-  <div class="mt-6">
-<%= button_to "Delete this item", item_path(@item),
-              method: :delete,
-              form: { data: { confirm: "本当に削除しますか？" },
-                      class: "inline" },
-              class: "px-4 py-2 bg-red-600 text-white rounded" %>
+<%= button_to "このアイテムを削除する", item_path(@item),
+      method: :delete,
+      form: { class: "inline", data: { turbo: false } },
+      onclick: "return confirm('本当にこのアイテムを削除しますか？')",
+      class: "px-4 py-2 bg-red-600 text-white rounded" %>
+
 
 </div>
 
