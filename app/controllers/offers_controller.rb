@@ -1,29 +1,35 @@
-# app/controllers/offers_controller.rb
 class OffersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_offer, only: %i[ show edit update destroy accept create_reply ]
-  before_action :authorize_offer!, only: %i[ show edit update destroy accept create_reply ]
+  before_action :set_offer, only: %i[show edit update destroy accept create_reply]
+
+  # Only the user who made the offer can view/edit/update/destroy it
+  before_action :authorize_offer_user!, only: %i[show edit update destroy]
+  # Only the item owner can accept an offer
+  before_action :authorize_item_owner!,  only: %i[accept]
+  # Both the offerer and the item owner can reply
+  before_action :authorize_offer_user_or_item_owner!, only: %i[create_reply]
 
   # GET /offers
   def index
-    # まず「自分が出品者として所有しているアイテムID の配列」を取得
-    item_ids = current_user.items.pluck(:id)
-
-    # 「自分が提案者(offered_by)」または「自分が出品者(item_id: item_ids)」の両方を or で結合
+    # IDs of items that the current user owns
+    owned_item_ids = current_user.items.pluck(:id)
+    # Offers the user made OR offers on the user's items
     @offers = Offer.where(offered_by: current_user)
-                   .or(Offer.where(item_id: item_ids))
+                   .or(Offer.where(item_id: owned_item_ids))
   end
 
-  # 以下、show, new, create, edit, update, destroy, accept, create_reply はそのまま
+  # GET /offers/:id
   def show
     @replies = @offer.replies.includes(:user)
     @reply   = Reply.new
   end
 
+  # GET /offers/new
   def new
     @offer = Offer.new
   end
 
+  # POST /offers
   def create
     @offer = Offer.new(offer_params)
     @offer.offered_by = current_user
@@ -36,9 +42,11 @@ class OffersController < ApplicationController
     end
   end
 
+  # GET /offers/:id/edit
   def edit
   end
 
+  # PATCH/PUT /offers/:id
   def update
     if @offer.update(offer_params)
       redirect_to @offer, notice: "提案が更新されました。"
@@ -47,11 +55,13 @@ class OffersController < ApplicationController
     end
   end
 
+  # DELETE /offers/:id
   def destroy
     @offer.destroy!
     redirect_to offers_path, notice: "提案を削除しました。"
   end
 
+  # POST /offers/:id/accept
   def accept
     Offer.transaction do
       @offer.update!(status: "accepted")
@@ -60,6 +70,7 @@ class OffersController < ApplicationController
     redirect_to item_path(@offer.item), notice: "提案を受け入れました。"
   end
 
+  # POST /offers/:id/replies
   def create_reply
     @reply = @offer.replies.build(reply_params.merge(user: current_user))
 
@@ -86,9 +97,21 @@ class OffersController < ApplicationController
     params.require(:reply).permit(:body)
   end
 
-  def authorize_offer!
-    unless @offer.offered_by == current_user || @offer.item.user == current_user
-      redirect_to offers_path, alert: "権限がありません。"
-    end
+  def authorize_offer_user!
+    return if @offer.offered_by == current_user
+
+    redirect_to offers_path, alert: "権限がありません。"
+  end
+
+  def authorize_item_owner!
+    return if @offer.item.user == current_user
+
+    redirect_to offers_path, alert: "権限がありません。"
+  end
+
+  def authorize_offer_user_or_item_owner!
+    return if @offer.offered_by == current_user || @offer.item.user == current_user
+
+    redirect_to offers_path, alert: "権限がありません。"
   end
 end
