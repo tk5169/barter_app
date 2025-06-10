@@ -11,12 +11,13 @@ Rails.application.routes.draw do
   resources :messages, only: [:index, :create]
 
   # Item（アイテム出品用）
-  resources :items
+  resources :items do
   
      member do
      get  :confirm_destroy    # 削除確認ページ
      end
-
+ end
+  
   resources :offers, only: %i[index show new create edit update destroy] do
     # replies#create が OffersController#create_reply にマップされるように指定
     post "replies", to: "offers#create_reply", as: :replies
