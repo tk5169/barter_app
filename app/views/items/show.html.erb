@@ -1,26 +1,24 @@
 <% content_for :title, "Showing item" %>
 
 <div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Showing item</h1>
+  <h1 class="font-bold text-4xl">詳細</h1>
 
-  <p><strong>Title:</strong> <%= @item.title %></p>
-  <p><strong>Description:</strong> <%= @item.description %></p>
-  <p><strong>Status:</strong> <%= @item.status %></p>
+  <p><strong>アイテム名:</strong> <%= @item.title %></p>
+  <p><strong>説明:</strong> <%= @item.description %></p>
+  <p><strong>状態:</strong> <%= @item.status %></p>
 
 <% if @item.image.attached? %>
-   <%= link_to item_path(@item) do %>
-          <%= image_tag(
-      url_for(@item.image),
-      alt: @item.title,
-      style: "max-width:130px; width:150%; height:auto; display:block; margin-bottom:1rem; border-radius:4px; border:1px solid #DDD;"
-    ) %>
-   <% end %>
+     <%= link_to item_path(@item) do %>
+            <%= image_tag(
+                @item.image,
+                alt: @item.title,
+                style: "max-width:130px; width:150%; height:auto; display:block; margin-bottom:1rem; border-radius:4px; border:1px solid #DDD;"
+            ) %>
+     <% end %>
 <% end %>
 
 
-  <%= link_to "Edit", edit_item_path(@item) %> |
-  <%= link_to "Back", items_path %> |
-  
+
 </div>
 
 <% if user_signed_in? && current_user != @item.user %>
@@ -50,11 +48,8 @@
         <li class="p-4 border rounded">
           <p><strong>提案者:</strong> <%= offer.offered_by.email %></p>
           <p><strong>内容:</strong> <%= offer.offered_item_text %></p>
-          <p><strong>状態:</strong> <%= offer.status %></p>
 
-          <% if offer.status == "pending" %>
-            <%= button_to "この提案を受け入れる", accept_offer_path(offer), method: :post, class: "mt-2 bg-green-600 text-white px-4 py-2 rounded" %>
-          <% end %>
+
 
           <!-- 返信一覧 -->
           <% offer.replies.each do |reply| %>

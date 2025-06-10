@@ -2,16 +2,23 @@
 Rails.application.routes.draw do
   # トップページ（ホーム）
   get "home/index"
+  
+  resources :items
+  
   root to: "home#index"  # ここは1つだけにする
 
   # Devise（ユーザー認証）
   devise_for :users
+  
+  resources :requests, only: %i[index new create]
 
   # Message（メッセージスレッド用）
   resources :messages, only: [:index, :create]
 
   # Item（アイテム出品用）
   resources :items do
+    collection { get :my }
+     end
   
      member do
      get  :confirm_destroy    # 削除確認ページ
@@ -25,6 +32,6 @@ Rails.application.routes.draw do
 
   # Offer を受け入れるアクション（カスタムルート）
   post "offers/:id/accept", to: "offers#accept", as: "accept_offer"
-end
+　end
 
 
