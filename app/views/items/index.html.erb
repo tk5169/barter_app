@@ -35,9 +35,11 @@
         <p><strong>User ID:</strong> <%= item.user_id %></p>
 
         <div class="mt-2 space-x-3">
-          <%= link_to "Show", item_path(item), class: "text-blue-600 underline" %>
-          <%= link_to "Edit", edit_item_path(item), class: "text-purple-600 underline" %>
-        </div>
+          <%= link_to "見る", item_path(item), class: "text-blue-600 underline" %>
+         
+          <!-- <%= link_to "Edit", edit_item_path(item), class: "text-purple-600 underline" %> -->
+        
+          </div>
       </div>
     </div>
   <% end %>
