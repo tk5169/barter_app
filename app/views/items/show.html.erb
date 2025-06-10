@@ -9,12 +9,12 @@
 
 <% if @item.image.attached? %>
      <%= link_to item_path(@item) do %>
-            <%= image_tag(
-        rails_blob_path(@item.image, only_path: true),
-        alt: @item.title,
-        style: "max-width:130px; width:150%; height:auto; display:block; margin-bottom:1rem; border-radius:4px; border:1px solid #DDD;"
-      ) %>
-     <% end %>
+              <%= image_tag(
+          @item.image,
+          alt: @item.title,
+          style: "max-width:130px; width:150%; height:auto; display:block; margin-bottom:1rem; border-radius:4px; border:1px solid #DDD;"
+        ) %>
+       <% end %>
 <% end %>
 
 
