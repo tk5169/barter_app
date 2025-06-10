@@ -1,35 +1,21 @@
-<div id="<%= dom_id offer %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Item:</strong>
-    <%= offer.item_id %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Offered by:</strong>
-    <%= offer.offered_by_id %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Offered item text:</strong>
-    <%= offer.offered_item_text %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= offer.status %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Accepted at:</strong>
-    <%= offer.accepted_at %>
-  </div>
-</div>
+<!-- app/views/offers/_offer.html.erb -->
+<div id="<%= dom_id offer %>" class="offer-card w-full sm:w-auto my-5 p-4 border rounded-lg">
+  <p><strong>Item:</strong> <%= offer.item.name %></p>
+  <p><strong>Offered item:</strong> <%= offer.offered_item_text %></p>
+  <p><strong>Status:</strong> <%= offer.status %></p>
+  <p><strong>Accepted at:</strong> <%= offer.accepted_at.presence || '—' %></p>
 
-<div class="offer-card">
-  <p>Item: <%= offer.item.name %></p>
-  <p>Offered item: <%= offer.text %></p>
-  <div class="actions">
-    <%= link_to "Show", offer %>
-    <% if offer.item.user == current_user %>
-      <%= link_to "Edit", edit_offer_path(offer) %>
+  <div class="actions mt-3 space-x-2">
+    <%= link_to "Show", offer, class: "px-3 py-1 bg-gray-100 rounded" %>
+
+    <%# 出品者だけに見せる Edit ボタン %>
+    <% if offer.item.user_id == current_user.id %>
+      <%= link_to "Edit", edit_offer_path(offer), class: "px-3 py-1 bg-blue-100 rounded" %>
     <% end %>
-    <%= button_to "Destroy", offer, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+
+    <%= button_to "Destroy", offer,
+          method: :delete,
+          data: { turbo_confirm: "Are you sure?" },
+          class: "px-3 py-1 bg-red-100 rounded" %>
   </div>
 </div>
-
