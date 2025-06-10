@@ -1,37 +1,33 @@
-# config/routes.rb
 Rails.application.routes.draw do
-  # トップページ（ホーム）
-  get "home/index"
-  
-  resources :items
-  
-  root to: "home#index"  # ここは1つだけにする
-
-  # Devise（ユーザー認証）
+  # Devise の設定
   devise_for :users
-  
+
+  # 募集機能
   resources :requests, only: %i[index new create]
 
-  # Message（メッセージスレッド用）
-  resources :messages, only: [:index, :create]
-
-  # Item（アイテム出品用）
+  # Items（商品の CRUD ＋マイページ＋削除確認）のルーティング
   resources :items do
-    collection { get :my }
-     end
-  
-     member do
-     get  :confirm_destroy    # 削除確認ページ
-     end
- end
-  
-  resources :offers, only: %i[index show new create edit update destroy] do
-    # replies#create が OffersController#create_reply にマップされるように指定
-    post "replies", to: "offers#create_reply", as: :replies
+    # 自分の出品一覧
+    collection do
+      get :my
+    end
+
+    # 削除確認用ページ
+    member do
+      get :confirm_destroy
+    end
   end
 
-  # Offer を受け入れるアクション（カスタムルート）
-  post "offers/:id/accept", to: "offers#accept", as: "accept_offer"
-　end
+  # 提案 (Offers) ＋返信 (Replies)
+  resources :offers do
+    post :accept, on: :member
+    resources :replies, only: %i[create]
+  end
 
+  # メッセージ機能
+  resources :messages, only: %i[index create]
 
+  # ホーム
+  get "home/index"
+  root to: "home#index"
+end
