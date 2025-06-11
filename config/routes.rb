@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
 
   # 募集機能
-  resources :requests, only: [:index, :new, :create] do
+  resources :requests, only: [:index, :new, :create, :destroy] do
     collection do
       get :my
     end

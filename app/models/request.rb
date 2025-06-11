@@ -4,7 +4,7 @@ class Request < ApplicationRecord
   
   after_create :schedule_auto_delete, if: -> { expires_at.present? }
 
-  validates :title, :description, presence: true
+  validates :title, presence: true
   
     private
 

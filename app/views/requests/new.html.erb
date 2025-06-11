@@ -1,6 +1,6 @@
 <h1>新しい募集を作成</h1>
 
-<%= form_with model: @request, local: true do |f| %>
+<%= form_with model: @request, local: true, html: { multipart: true } do |f| %>
 
   <div>
     <%= f.label :title, "タイトル" %><br>

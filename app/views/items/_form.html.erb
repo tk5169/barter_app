@@ -43,9 +43,7 @@
        "border-red-400 focus:outline-red-600": item.errors[:user_id].any?}] %>
   </div>
 
-  <div class="inline">
-    <%= form.submit "保存", class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-  </div>
+
 
     <div class="field mt-4">
     <%= form.number_field :delete_after_days, min: 1, max: 30, value: 1, class: 'border p-2 rounded' %>

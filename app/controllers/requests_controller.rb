@@ -19,9 +19,11 @@ class RequestsController < ApplicationController
 
   # POST /requests
   def create
-    @request = current_user.requests.build(request_params)
-    days = params[:request].delete(:delete_after_days).to_i
-    @request.expires_at = Time.current + days.days if days.positive?
+      params_req = request_params
+      days = params_req.delete(:delete_after_days).to_i
+      @request = current_user.requests.build(params_req)
+      @request.expires_at = Time.current + days.days if days.positive?
+
 
     if @request.save
       redirect_to my_requests_path, notice: "募集を作成しました（#{days}日後に自動削除されます）"
@@ -48,6 +50,6 @@ class RequestsController < ApplicationController
   end
 
   def request_params
-    params.require(:request).permit(:title, :description, :image)
+    params.require(:request).permit(:title, :description, :image, :delete_after_days)
   end
 end
