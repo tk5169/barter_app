@@ -1,0 +1,41 @@
+<!-- app/views/requests/my.html.erb -->
+<% content_for :title, "あなたの募集" %>
+
+<div class="prose mx-auto md:w-2/3 w-full">
+  <h1 class="text-3xl font-bold mb-4">あなたの募集</h1>
+
+  <% if @requests.any? %>
+    <ul class="space-y-6">
+      <% @requests.each do |r| %>
+        <li class="border p-4 rounded-md flex items-start space-x-4">
+          <% if r.image.attached? %>
+            <%= image_tag(
+                  url_for(r.image.variant(resize_to_limit: [100, 100])),
+                  alt: r.title,
+                  class: "w-24 h-24 object-cover rounded"
+                ) %>
+          <% end %>
+
+          <div class="flex-1">
+            <h2 class="text-xl font-semibold"><%= r.title %></h2>
+            <p class="mt-2 text-gray-700"><%= r.description %></p>
+            <p class="mt-1 text-sm text-gray-500">
+              作成日: <%= r.created_at.strftime("%Y/%m/%d %H:%M") %>
+            </p>
+
+            <!-- ここはループの内側で一度だけ呼び出す -->
+            <div class="mt-4">
+              <%= button_to "この募集を削除する", request_path(r),
+                    method: :delete,
+                    form: { class: "inline", data: { turbo: false } },
+                    onclick: "return confirm('本当にこの募集を削除しますか？')",
+                    class: "px-3 py-1 bg-red-600 text-white rounded" %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-center text-gray-500">まだあなたの募集はありません。</p>
+  <% end %>
+</div>

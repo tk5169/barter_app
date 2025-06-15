@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+
+development:
+  <<: *default
+  database: barter_app_development
+
+test:
+  <<: *default
+  database: barter_app_test
+
+#production:
+ # url: <%= ENV.fetch("DATABASE_URL") %>
+  #pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>

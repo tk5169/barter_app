@@ -1,0 +1,59 @@
+<%= form_with(model: item, local: true, html: { multipart: true }, class: "contents") do |form| %>
+  <% if item.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(item.errors.count, "error") %> 件のエラーがあります:</h2>
+      <ul class="list-disc ml-6">
+        <% item.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :image, "画像アップロード" %>
+    <%= form.file_field :image, class: "…" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :title, "タイトル" %>
+    <%= form.text_field :title, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+      {"border-gray-400 focus:outline-blue-600": item.errors[:title].none?,
+       "border-red-400 focus:outline-red-600": item.errors[:title].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :description, "説明" %>
+    <%= form.text_area :description, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+      {"border-gray-400 focus:outline-blue-600": item.errors[:description].none?,
+       "border-red-400 focus:outline-red-600": item.errors[:description].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :status, "状態" %>
+    <%= form.text_field :status, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+      {"border-gray-400 focus:outline-blue-600": item.errors[:status].none?,
+       "border-red-400 focus:outline-red-600": item.errors[:status].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :user_id, "出品者" %>
+    <%= form.text_field :user_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full",
+      {"border-gray-400 focus:outline-blue-600": item.errors[:user_id].none?,
+       "border-red-400 focus:outline-red-600": item.errors[:user_id].any?}] %>
+  </div>
+
+
+
+    <div class="field mt-4">
+    <%= form.number_field :delete_after_days, min: 1, max: 30, value: 1, class: 'border p-2 rounded' %>
+    <%= form.label :delete_after_days, '日後に出品を削除する' %>
+    <small class="text-gray-500">
+  </div>
+
+  <div class="actions mt-6">
+    <%= form.submit '出品する', class: 'px-4 py-2 bg-blue-600 text-white rounded' %>
+  </div>
+
+  
+<% end %>

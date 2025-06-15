@@ -1,0 +1,32 @@
+<h1>新しい募集を作成</h1>
+
+<%= form_with model: @request, local: true, html: { multipart: true } do |f| %>
+
+  <div>
+    <%= f.label :title, "タイトル" %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div>
+    <%= f.label :description, "詳細" %><br>
+    <%= f.text_area :description %>
+  </div>
+
+ <div class="mt-4">
+    <%= f.label :image, "画像を添付" %><br>
+    <%= f.file_field :image, accept: 'image/*' %>
+ </div>
+
+  <div class="mt-4">
+    <%= f.number_field :delete_after_days,
+                       min: 1,
+                       max: 30,
+                       value: @request.expires_at ? ((@request.expires_at.to_date - Date.current).to_i) : 1,
+                       class: 'border p-2 rounded' %>
+    <%= f.label :delete_after_days, "日後に募集を削除する" %>                   
+  </div>
+
+  <div class="mt-6">
+    <%= f.submit "募集する", class: "btn btn-primary" %>
+  </div>
+
+<% end %>

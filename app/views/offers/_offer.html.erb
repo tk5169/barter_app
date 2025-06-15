@@ -1,0 +1,17 @@
+<!-- app/views/offers/_offer.html.erb -->
+<div id="<%= dom_id offer %>" class="offer-card w-full sm:w-auto my-5 p-4 border rounded-lg">
+  <p><strong>アイテム:</strong> <%= offer.item.title %></p>
+  <p><strong>提案:</strong> <%= offer.offered_item_text %></p>
+  
+  
+  <div class="actions mt-3 space-x-2">
+    <%= link_to "見る", offer, class: "px-3 py-1 bg-gray-100 rounded" %>
+
+
+     <%= button_to "このメッセージを削除する", offer,
+      method: :delete,
+      form: { class: "inline", data: { turbo: false } },
+      onclick: "return confirm('削除しますか？')",
+      class: "px-4 py-2 bg-red-600 text-white rounded" %>       
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<% content_for :title, "提案を送信しました" %>
+
+<div class="prose">
+  <h1 class="text-2xl font-bold mb-4">提案を送信しました！</h1>
+
+  <p><strong>送信内容:</strong> <%= @offer.offered_item_text %></p>
+
+  <div class="mt-4 space-y-2">
+    <%= link_to "アイテムに戻る", item_path(@offer.item), class: "text-blue-600 underline block" %>
+    <%= link_to "アイテム一覧へ", items_path, class: "text-blue-600 underline block" %>
+  </div>
+</div>
+
+<% if user_signed_in? && (current_user == @offer.offered_by || current_user == @offer.item.user) %>
+  <hr class="my-6">
+
+  <h2 class="text-xl font-semibold">提案の詳細</h2>
+
+  <p><strong>交換したいアイテム:</strong> <%= @offer.item.title %></p>
+  <p><strong>提案内容:</strong> <%= @offer.offered_item_text %></p>
+
+  <h3 class="mt-4 text-lg font-medium">返信一覧</h3>
+  <p>現在 <%= @replies.size %> 件の返信があります。</p>
+  <% if @replies.any? %>
+    <% @replies.each do |reply| %>
+      <div class="border p-2 mt-2 rounded">
+        <strong><%= reply.user.email %>:</strong> <%= reply.body %>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-gray-500 mt-2">返信はまだありません。</p>
+  <% end %>
+
+  <h3 class="mt-6 text-lg font-medium">返信を書く</h3>
+  <%= form_with model: [@offer, @reply], local: true do |f| %>
+    <%= f.text_area :body, rows: 3, placeholder: "返信内容", class: "w-full p-2 border rounded" %><br>
+    <%= f.submit "返信する", class: "mt-2 px-4 py-2 bg-blue-600 text-white rounded" %>
+  <% end %>
+<% else %>
+  <p class="text-red-500 mt-4">この提案の詳細を見るには権限がありません。</p>
+<% end %>

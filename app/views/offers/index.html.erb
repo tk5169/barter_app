@@ -1,0 +1,28 @@
+<%# app/views/offers/index.html.erb %>
+<% content_for :title, "送った提案" %>
+
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice">
+      <%= notice %>
+    </p>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="font-bold text-4xl">送った提案</h1>
+  
+  </div>
+
+  <div id="offers" class="min-w-full divide-y divide-gray-200 space-y-5">
+    <% sent = @offers.select { |o| o.offered_by == current_user } %>
+    <% if sent.any? %>
+      <% sent.each do |offer| %>
+        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
+          <%= render offer %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-center my-10">あなたはまだ提案を送信していません。</p>
+    <% end %>
+  </div>
+</div>

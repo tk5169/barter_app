@@ -1,0 +1,69 @@
+<%# app/views/home/index.html.erb %>
+<% content_for :title, "価値交換プラットフォームへようこそ" %>
+
+<section class="min-h-screen bg-gradient-to-b from-teal-200 to-white py-8">
+  <div class="max-w-4xl mx-auto bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-lg shadow-md">
+    <h1 class="text-4xl font-bold text-teal-700 mb-6">価値交換プラットフォーム</h1>
+
+    <div class="space-y-8 text-gray-800">
+      <div>
+        <h2 class="text-2xl font-semibold text-orange-500 mb-2">目的</h2>
+        <ul class="list-disc list-inside">
+          <li>価値 ⇆ 価値 を交換</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold text-orange-500 mb-2">交換対象</h2>
+        <ul class="list-disc list-inside">
+          <li>物品（お菓子 ⇆ ジュース）</li>
+          <li>自作品（小物 ⇆ 絵）</li>
+          <li>サービス（お手伝い ⇆ 教育）</li>
+          <li>貸し出し（ドライヤー貸出 ⇆ ティッシュ）</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold text-orange-500 mb-2">手順</h2>
+        <ol class="list-decimal list-inside space-y-1">
+          <li>出品</li>
+          <li>提案</li>
+          <li>交渉</li>
+          <li>受け渡し方法、場所の連絡</li>
+          <li>受け取り後、相手に連絡</li>
+          <li>完了後、自分でアイテムを削除</li>
+        </ol>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold text-orange-500 mb-2">注意事項</h2>
+        <ul class="list-disc list-inside">
+          <li>品質トラブル</li>
+          <li>返却・破損</li>
+          <li>全て自己責任</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold text-orange-500 mb-2">前提</h2>
+        <ul class="list-disc list-inside">
+          <li>信頼・モラル</li>
+          <li>楽しく快適な島ライフ！</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="mt-8 border-t pt-4 text-gray-600 flex flex-col sm:flex-row justify-between items-center">
+      <% if user_signed_in? %>
+        <span class="text-sm"><%= current_user.email %> でログイン中</span>
+      <% else %>
+        <span class="text-sm">ログインしていません</span>
+      <% end %>
+
+      <div class="mt-3 sm:mt-0 space-x-4">
+        <%= link_to "アイテム一覧を見る", items_path, class: "px-3 py-1 bg-teal-500 text-white rounded" %>
+        <%= link_to "アイテムを出品する", new_item_path, class: "px-3 py-1 bg-teal-500 text-white rounded" %>
+      </div>
+    </footer>
+  </div>
+</section>

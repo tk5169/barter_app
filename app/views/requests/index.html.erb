@@ -1,0 +1,13 @@
+<h1>募集一覧</h1>
+<%= link_to "新しく募集を作る", new_request_path, class: "btn" %>
+
+<% @requests.each do |r| %>
+  <div class="border p-4 my-2">
+   <% if r.image.attached? %>
+      <%= image_tag url_for(r.image.variant(resize_to_limit: [150, 150])), class: "rounded mb-2" %>
+    <% end %>
+    <h2><%= r.title %></h2>
+    <p><%= r.description %></p>
+    
+  </div>
+<% end %>

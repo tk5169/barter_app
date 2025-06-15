@@ -1,0 +1,72 @@
+<% content_for :title, "Showing item" %>
+
+<div class="md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">詳細</h1>
+
+  <p><strong>アイテム名:</strong> <%= @item.title %></p>
+  <p><strong>説明:</strong> <%= @item.description %></p>
+  <p><strong>状態:</strong> <%= @item.status %></p>
+
+<% if @item.image.attached? %>
+     <%= link_to item_path(@item) do %>
+              <%= image_tag(
+          @item.image,
+          alt: @item.title,
+          style: "max-width:130px; width:150%; height:auto; display:block; margin-bottom:1rem; border-radius:4px; border:1px solid #DDD;"
+        ) %>
+       <% end %>
+<% end %>
+
+
+
+</div>
+
+<% if user_signed_in? && current_user != @item.user %>
+  <!-- 提案フォーム（他ユーザーが見る） -->
+  <h2 class="mt-6 font-semibold text-lg">このアイテムに提案する</h2>
+
+  <%= form_with model: Offer.new, url: offers_path, method: :post, local: true do |form| %>
+    <%= form.hidden_field :item_id, value: @item.id %>
+
+    <div>
+      <%= form.label :offered_item_text, "提案内容（何と交換したいか）" %><br>
+      <%= form.text_area :offered_item_text, rows: 3, placeholder: "例：自作のポストカードと交換しませんか？" %>
+    </div>
+
+    <div>
+      <%= form.submit "提案する", class: "mt-2 bg-blue-600 text-white px-4 py-2 rounded" %>
+    </div>
+  <% end %>
+
+<% elsif user_signed_in? && current_user == @item.user %>
+  <!-- 提案一覧（投稿者のみが見る） -->
+  <h2 class="mt-6 font-semibold text-lg">受け取った提案一覧（<%= @offers.size %>件）</h2>
+
+  <% if @offers.any? %>
+    <ul class="space-y-4 mt-2">
+      <% @offers.each do |offer| %>
+        <li class="p-4 border rounded">
+          <p><strong>提案者:</strong> <%= offer.offered_by.email %></p>
+          <p><strong>内容:</strong> <%= offer.offered_item_text %></p>
+
+
+
+          <!-- 返信一覧 -->
+          <% offer.replies.each do |reply| %>
+            <div class="ml-4 mt-2 text-sm text-gray-600">
+              <strong><%= reply.user.email %>:</strong> <%= reply.body %>
+            </div>
+          <% end %>
+
+          <!-- 返信フォーム -->
+          <%= form_with model: [offer, Reply.new], local: true do |f| %>
+            <%= f.text_area :body, rows: 2, placeholder: "返信を書く" %><br>
+            <%= f.submit "返信する", class: "mt-1 px-3 py-1 bg-blue-500 text-white rounded" %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-600 mt-2">まだ提案はありません。</p>
+  <% end %>
+<% end %>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= content_for?(:title) ? yield(:title) : "BarterApp" %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="min-h-screen bg-gradient-to-b from-teal-200 to-white text-gray-800">
+    <!-- ヘッダー -->
+    <header class="sticky top-0 z-50 bg-white bg-opacity-75 backdrop-blur-md shadow-md">
+      <div class="max-w-4xl mx-auto flex items-center justify-between px-4 py-3">
+        <div class="flex items-center space-x-4">
+        <br><br>
+          <%= link_to "🏝️ ホーム", root_path, class: "font-semibold text-teal-600 hover:text-teal-800" %>
+          <%= link_to "🛍️ アイテム一覧", items_path, class: "font-semibold text-teal-600 hover:text-teal-800" %>
+          <%= link_to "📢 募集一覧", requests_path, class: "font-semibold text-teal-600 hover:text-teal-800" %><br>
+          <%= link_to "✉️ 送った提案", offers_path, class: "font-semibold text-teal-600 hover:text-teal-800" %>
+          <% if user_signed_in? %>
+            <%= link_to "📦 あなたの出品", my_items_path, class: "font-semibold text-teal-600 hover:text-teal-800" %>
+            <%= link_to "📣 あなたの募集", my_requests_path, class: "font-semibold text-teal-600 hover:text-teal-800" %>
+          <% end %>
+        </div>
+        <div class="flex items-center space-x-3">
+          <% if user_signed_in? %>
+            <span class="text-sm text-gray-600"><%= current_user.email %></span>
+            <%= button_to "ログアウト", destroy_user_session_path,
+                  method: :delete,
+                  form: { class: "inline" },
+                  class: "text-red-500 hover:text-red-700 text-sm" %>
+          <% else %>
+            <%= link_to "ログイン", new_user_session_path, class: "text-sm text-teal-600 hover:text-teal-800" %> |
+            <%= link_to "登録", new_user_registration_path, class: "text-sm text-teal-600 hover:text-teal-800" %>
+          <% end %>
+        </div>
+      </div>
+    </header>
+
+    <!-- メイン -->
+    <main class="max-w-4xl mx-auto px-4 py-6">
+      <%= yield %>
+    </main>
+  </body>
+</html>

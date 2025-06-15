@@ -1,0 +1,35 @@
+<%# app/views/items/edit.html.erb %>
+<% content_for :title, "Editing item<" %>
+
+<div class="md:w-2/3 w-full">
+
+  <h1 class="font-bold text-4xl mb-4">アイテムを編集する</h1>
+
+    <% if @item.image.attached? %>
+    <%= image_tag(
+          url_for(@item.image.variant(resize_to_limit: [300, 300])),
+          alt: @item.title,
+          class: "rounded border mb-6 w-full object-contain"
+        ) %>
+  <% end %>
+
+  <!-- フォーム本体 -->
+  <%= render "form", item: @item %>
+
+<%= button_to "このアイテムを削除する", item_path(@item),
+      method: :delete,
+      form: { class: "inline", data: { turbo: false } },
+      onclick: "return confirm('本当にこのアイテムを削除しますか？')",
+      class: "px-4 py-2 bg-red-600 text-white rounded" %>
+
+
+</div>
+
+  <!-- 詳細・一覧へのリンク -->
+  <div class="mt-4 space-x-4">
+    <%= link_to "このアイテムを見る", item_path(@item),
+                class: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded" %>
+    <%= link_to "アイテム一覧に戻る", items_path,
+                class: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded" %>
+  </div>
+</div>

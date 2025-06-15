@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item: one
+  offered_by_id: 1
+  offered_item_text: MyText
+  status: MyString
+  accepted_at: 2025-06-05 01:25:17
+
+two:
+  item: two
+  offered_by_id: 1
+  offered_item_text: MyText
+  status: MyString
+  accepted_at: 2025-06-05 01:25:17
