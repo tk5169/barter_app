@@ -1,1 +1,55 @@
+<!-- app/views/items/index.html.erb -->
+
+
+
+<% content_for :title, "Items 一覧" %>
+
+<div class="prose mx-auto md:w-2/3 w-full">
+
+<% if action_name == "my" %>
+  <h1>あなたの出品一覧</h1>
+<% else %>
+  <h1>商品一覧</h1>
+ 
+<% end %>
+
+
+  <%= link_to "新しく出品する", new_item_path, class: "inline-block mb-6 px-4 py-2 bg-blue-600 text-white rounded" %>
+
+
+  <% @items.each do |item| %>
+  <div class="mb-8 border-b pb-6 flex items-start space-x-4">
+
+  <% if item.image.attached? %>
+     <%= link_to item_path(item) do %>
+              <%= image_tag(
+            rails_blob_path(item.image, only_path: true),
+            alt: item.title,
+            style: "max-width:130px; width:150%; height:auto; display:block; margin-bottom:1rem; border-radius:4px; border:1px solid #DDD;"
+          ) %>
+       <% end %>
+
+
+      <!-- ── テキスト情報部分 ── -->
+      <div class="flex-1">
+        <p><strong></strong> <%= item.title.presence || "—" %></p>
+        <p><strong>説明：</strong> <%= item.description.presence || "—" %></p>
+        <p><strong>状態：</strong> <%= item.status.presence || "—" %></p>
+        <p><strong>出品者:</strong> <%= item.user_id %></p>
+
+                <%# ここに「受け取った提案○件」を追加 %>
+        <p class="mt-2 font-medium">
+          受け取った提案 <%= item.offers.count %> 件
+        </p>
+
+        <div class="mt-2 space-x-3">
+          <%= link_to "見る", item_path(item), class: "text-blue-600 underline" %>
+          <%= link_to "編集する", edit_item_path(item), class: "text-purple-600 underline" %>
+        
+          </div>
+      </div>
+    </div>
+   <% end %>  
+  <% end %>
+</div>
 
