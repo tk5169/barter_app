@@ -22,7 +22,7 @@ gem "jbuilder"
 
 gem 'image_processing', '~> 1.2'
 
-gem 'mini_magick', '~> 4.11'   # あるいは gem 'ruby-vips'
+gem 'mini_magick', '~> 5.3'    # あるいは gem 'ruby-vips'
 
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
